@@ -90,7 +90,9 @@ Corpo:
   - `endpoint`: URL `https`, il cui host è in una lista di push service ammessi:
     `fcm.googleapis.com`, `*.push.services.mozilla.com`, `web.push.apple.com`,
     `*.notify.windows.com`. Impedisce di usare il Worker per fare POST verso URL arbitrari;
-  - `keys.p256dh` e `keys.auth`: stringhe base64url non vuote, al massimo 128 caratteri;
+  - `keys.p256dh`: base64url, al massimo 128 caratteri, che si decodifica in 65 byte con primo byte
+    `0x04` (punto P-256 non compresso); `keys.auth`: base64url che si decodifica in 16 byte.
+    Un contatto malformato viene così rifiutato subito con `422` invece di fallire nel job;
   - `expirationTime` ignorato.
 - **orario**: stringa ISO 8601 **con fuso** (`Z` o `±hh:mm`); senza fuso è rifiutato perché ambiguo.
   Convertito in millisecondi UTC. Intervallo valido: da `adesso − 1 h` a `adesso + 24 h`.
@@ -165,7 +167,8 @@ visibili in Workers Logs (`observability.enabled = true`). Nei log non finiscono
 
 `wrangler.jsonc`:
 
-- `main: "src/index.ts"`, `compatibility_date` recente;
+- `main: "src/index.ts"`, `compatibility_date: "2026-08-15"` (non oltre la data massima supportata dal
+  `workerd` del pool di test, oggi 2026-08-22);
 - `triggers.crons: ["* * * * *"]`;
 - `d1_databases`: binding `DB`, `migrations_dir: "migrations"`;
 - `vars`: `VAPID_PUBLIC_KEY`, `VAPID_SUBJECT = "https://ricky79.github.io/krumiro2.0/"`
