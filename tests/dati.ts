@@ -22,3 +22,12 @@ export function subscriptionJson(modifiche: { endpoint?: string; keys?: Record<s
     keys: modifiche.keys ?? { p256dh: P256DH_FINTA, auth: AUTH_FINTA },
   };
 }
+
+/** Contatto con chiavi vere generate al volo: cifrabile da @block65/webcrypto-web-push. */
+export async function contattoReale(endpoint = ENDPOINT_FCM): Promise<Contatto> {
+  const coppia = (await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, [
+    'deriveBits',
+  ])) as CryptoKeyPair;
+  const pubblica = new Uint8Array((await crypto.subtle.exportKey('raw', coppia.publicKey)) as ArrayBuffer);
+  return { endpoint, p256dh: base64url(pubblica), auth: base64url(crypto.getRandomValues(new Uint8Array(16))) };
+}
