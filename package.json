@@ -1,0 +1,27 @@
+{
+  "name": "krumiro-notifiche",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --test-scheduled",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "tipi": "wrangler types --strict-vars=false",
+    "vapid": "node scripts/genera-vapid.mjs",
+    "db:migra": "wrangler d1 migrations apply DB --remote",
+    "db:migra:locale": "wrangler d1 migrations apply DB --local",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@block65/webcrypto-web-push": "^2.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "@types/node": "^22.20.5",
+    "typescript": "~5.9.3",
+    "vitest": "~4.1.11",
+    "wrangler": "^4.147.0"
+  }
+}

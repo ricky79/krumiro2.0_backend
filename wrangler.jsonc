@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "krumiro-notifiche",
+  "main": "src/index.ts",
+  // Non oltre il 2026-08-22: è la data massima del workerd usato dai test.
+  "compatibility_date": "2026-08-15",
+  "observability": { "enabled": true },
+  "triggers": { "crons": ["* * * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "krumiro-notifiche",
+      // Sostituito con l'id reale al primo deploy (`wrangler d1 create krumiro-notifiche`).
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "secrets": { "required": ["VAPID_PRIVATE_KEY"] },
+  "vars": {
+    // Impostata nel Task 7 con `npm run vapid`.
+    "VAPID_PUBLIC_KEY": "",
+    "VAPID_SUBJECT": "https://ricky79.github.io/krumiro2.0/",
+    "ORIGINI_CONSENTITE": "https://ricky79.github.io,http://localhost:5173"
+  }
+}

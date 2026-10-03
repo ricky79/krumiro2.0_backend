@@ -1,0 +1,2 @@
+# Copia in .dev.vars per `npm run dev`. La coppia si genera con `npm run vapid`.
+VAPID_PRIVATE_KEY=
