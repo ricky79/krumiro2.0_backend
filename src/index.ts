@@ -1,5 +1,7 @@
+import { gestisciRichiesta } from './http';
+
 export default {
-  async fetch(): Promise<Response> {
-    return Response.json({ errore: 'percorso non trovato' }, { status: 404 });
+  fetch(req, env) {
+    return gestisciRichiesta(req, env);
   },
 } satisfies ExportedHandler<Env>;
