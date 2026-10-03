@@ -17,8 +17,7 @@
   ],
   "secrets": { "required": ["VAPID_PRIVATE_KEY"] },
   "vars": {
-    // Impostata nel Task 7 con `npm run vapid`.
-    "VAPID_PUBLIC_KEY": "",
+    "VAPID_PUBLIC_KEY": "BDMM0_ITU0dc_OrEyil6M1IliUYEiKma7ANcCiK5CVxVIM8LxBWnycBd0NJG_PQpBTadDsQctWsx2z6dMzZb0iA",
     "VAPID_SUBJECT": "https://ricky79.github.io/krumiro2.0/",
     "ORIGINI_CONSENTITE": "https://ricky79.github.io,http://localhost:5173"
   }
