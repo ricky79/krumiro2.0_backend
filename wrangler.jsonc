@@ -4,6 +4,9 @@
   "main": "src/index.ts",
   // Non oltre il 2026-08-22: è la data massima del workerd usato dai test.
   "compatibility_date": "2026-08-15",
+  // L'API è servita da https://krumiro-notifiche.<sottodominio>.workers.dev; niente URL di anteprima per versione.
+  "workers_dev": true,
+  "preview_urls": false,
   "observability": { "enabled": true },
   "triggers": { "crons": ["* * * * *"] },
   "d1_databases": [
