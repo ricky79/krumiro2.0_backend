@@ -23,6 +23,16 @@ export function subscriptionJson(modifiche: { endpoint?: string; keys?: Record<s
   };
 }
 
+/** Chiave privata VAPID valida ma di un'altra coppia: firma, ma non corrisponde alla pubblica configurata. */
+export async function privataVapidDiAltraCoppia(): Promise<string> {
+  const coppia = (await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, [
+    'sign',
+    'verify',
+  ])) as CryptoKeyPair;
+  const { d } = (await crypto.subtle.exportKey('jwk', coppia.privateKey)) as JsonWebKey;
+  return d ?? '';
+}
+
 /** Contatto con chiavi vere generate al volo: cifrabile da @block65/webcrypto-web-push. */
 export async function contattoReale(endpoint = ENDPOINT_FCM): Promise<Contatto> {
   const coppia = (await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, [

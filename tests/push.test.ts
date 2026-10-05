@@ -2,7 +2,7 @@ import { env } from 'cloudflare:test';
 import { describe, expect, it } from 'vitest';
 import { chiaviVapid, inviaPush, payloadAvviso, verificaChiaviVapid } from '../src/push';
 import type { Avviso } from '../src/tipi';
-import { CONTATTO_FINTO, contattoReale } from './dati';
+import { CONTATTO_FINTO, contattoReale, privataVapidDiAltraCoppia } from './dati';
 
 const ORARIO = Date.parse('2026-10-03T10:45:00Z');
 
@@ -85,5 +85,10 @@ describe('verificaChiaviVapid', () => {
     ['pubblica vuota', { VAPID_PUBLIC_KEY: '' }],
   ])('rifiuta: %s', async (_, modifica) => {
     await expect(verificaChiaviVapid(chiaviVapid({ ...env, ...modifica }))).rejects.toThrow();
+  });
+
+  it('rifiuta una privata valida che non corrisponde alla pubblica', async () => {
+    const vapid = { ...chiaviVapid(env), privateKey: await privataVapidDiAltraCoppia() };
+    await expect(verificaChiaviVapid(vapid)).rejects.toThrow();
   });
 });
