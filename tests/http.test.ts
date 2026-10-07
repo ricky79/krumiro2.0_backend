@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { subscriptionJson } from './dati';
 
 const BASE = 'https://notifiche.test';
-const ORIGINE = 'https://ricky79.github.io';
+const ORIGINE = 'https://sbeggio.app';
 
 interface Opzioni {
   corpo?: unknown;

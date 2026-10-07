@@ -1,6 +1,6 @@
 # Notifiche di fine pausa
 
-Backend della PWA [Timbrature](https://ricky79.github.io/krumiro2.0/): memorizza l'ora a cui l'utente vuole
+Backend della PWA [Sbeggio](https://sbeggio.app/): memorizza l'ora a cui l'utente vuole
 essere avvisato della fine della pausa e, allo scadere, invia una notifica **web push** al telefono.
 
 Gira su **Cloudflare Workers**: le API rispondono via HTTP, un Cron Trigger ogni minuto invia gli avvisi scaduti,
@@ -75,18 +75,18 @@ scripts/            genera-vapid.mjs
 ## Primo deploy
 
 1. `npx wrangler login`
-2. `npx wrangler d1 create krumiro-notifiche` e copia il `database_id` restituito in `wrangler.jsonc`.
+2. `npx wrangler d1 create sbeggio-notifiche` e copia il `database_id` restituito in `wrangler.jsonc`.
 3. Se non ci sono già, genera le chiavi con `npm run vapid`: la pubblica va in `wrangler.jsonc`
    (`VAPID_PUBLIC_KEY`) e nella configurazione della PWA, la privata non va mai nel repository.
 4. `npx wrangler secret put VAPID_PRIVATE_KEY` e incolla la chiave privata.
 5. `npm run db:migra`
-6. `npm run deploy`. L'URL del Worker (`https://krumiro-notifiche.<account>.workers.dev`) è la base delle API.
+6. `npm run deploy`. L'API risponde su `https://notifiche.sbeggio.app` (dominio personalizzato in `routes`: il dominio `sbeggio.app` deve stare nello stesso account Cloudflare).
 
 Deploy successivi: `npm run deploy` (più `npm run db:migra` se ci sono nuove migrazioni).
 Cambiare la coppia VAPID invalida tutte le iscrizioni: la PWA deve rifarle.
 
 ## Log
 
-Con `observability` attivo i log sono in *Workers & Pages → krumiro-notifiche → Logs*. Ogni giro con avvisi
+Con `observability` attivo i log sono in *Workers & Pages → sbeggio-notifiche → Logs*. Ogni giro con avvisi
 scaduti registra `{ evento: "giro", letti, inviato, scaduta, riprova, scarta, errori }`; ogni invio
 `{ evento: "invio", id, azione, esito, status, tentativi }`. Endpoint e chiavi non finiscono mai nei log.

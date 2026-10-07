@@ -1,26 +1,28 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "krumiro-notifiche",
+  "name": "sbeggio-notifiche",
   "main": "src/index.ts",
   // Non oltre il 2026-08-22: è la data massima del workerd usato dai test.
   "compatibility_date": "2026-08-15",
-  // L'API è servita da https://krumiro-notifiche.<sottodominio>.workers.dev; niente URL di anteprima per versione.
-  "workers_dev": true,
+  // L'API è servita solo dal dominio personalizzato https://notifiche.sbeggio.app (sotto, routes); niente workers.dev
+  // né URL di anteprima per versione.
+  "workers_dev": false,
+  "routes": [{ "pattern": "notifiche.sbeggio.app", "custom_domain": true }],
   "preview_urls": false,
   "observability": { "enabled": true },
   "triggers": { "crons": ["* * * * *"] },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "krumiro-notifiche",
-      "database_id": "da5babed-a73e-4d47-9f89-0e30f1e5e489",
+      "database_name": "sbeggio-notifiche",
+      "database_id": "9f76df79-d1e3-463f-b2c0-9911b1a26bf5",
       "migrations_dir": "migrations"
     }
   ],
   "secrets": { "required": ["VAPID_PRIVATE_KEY"] },
   "vars": {
     "VAPID_PUBLIC_KEY": "BDMM0_ITU0dc_OrEyil6M1IliUYEiKma7ANcCiK5CVxVIM8LxBWnycBd0NJG_PQpBTadDsQctWsx2z6dMzZb0iA",
-    "VAPID_SUBJECT": "https://ricky79.github.io/krumiro2.0/",
-    "ORIGINI_CONSENTITE": "https://ricky79.github.io,http://localhost:5173"
+    "VAPID_SUBJECT": "https://sbeggio.app/",
+    "ORIGINI_CONSENTITE": "https://sbeggio.app,http://localhost:5173"
   }
 }
